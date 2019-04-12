@@ -10,8 +10,8 @@ add_theme_support('post-thumbnails');
 // admin area functions
 include 'includes/admin-area.php';
 
-// redirects admin page
-include 'includes/redirect.php';
+// extra admin page
+include 'includes/extra-pages.php';
 
 // rest API
 include 'includes/api-functions.php'
