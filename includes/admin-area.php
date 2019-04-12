@@ -20,6 +20,7 @@ if($user_role !== 'administrator'){
 		remove_menu_page('edit.php?post_type=acf-field-group');
 		remove_menu_page('admin.php');
 		remove_menu_page('admin.php?page=post_type_redirects');
+		remove_menu_page('admin.php?page=post_type_categories');
 
 		remove_meta_box('dashboard_right_now', 'dashboard', 'normal' );
 		remove_meta_box('dashboard_activity', 'dashboard', 'normal' );
@@ -60,7 +61,7 @@ if($user_role !== 'administrator'){
 
 
 
-// add columns to admin post lists
+// add post thumbnail column to admin post lists
 add_filter('manage_posts_columns', 'posts_columns', 5);
 add_action('manage_posts_custom_column', 'posts_custom_columns', 5, 2);
 
@@ -75,25 +76,6 @@ function posts_custom_columns($column_name, $id){
 	}
 }
 
-
-
-
-
-// add Term ID to custom categories table
-function my_custom_taxonomy_columns( $columns ){
-	$columns['my_term_id'] = __('Term ID');
-	return $columns;
-}
-add_filter('manage_edit-award_categories_columns', 'my_custom_taxonomy_columns');
-
-
-function my_custom_taxonomy_columns_content( $content, $column_name, $term_id ){
-    if ( 'my_term_id' == $column_name ) {
-        $content = $term_id;
-    }
-	return $content;
-}
-add_filter('manage_award_categories_custom_column', 'my_custom_taxonomy_columns_content', 10, 3 );
 
 
 
