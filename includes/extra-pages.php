@@ -15,7 +15,8 @@ function add_menus(){
 	
 }
 
-add_action('admin_menu', 'add_menus');
-
+if($user_role == 'administrator'){
+	add_action('admin_menu', 'add_menus');
+}
 
 ?>
