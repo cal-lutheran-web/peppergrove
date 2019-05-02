@@ -14,6 +14,6 @@ include 'includes/admin-area.php';
 include 'includes/extra-pages.php';
 
 // rest API
-include 'includes/api-functions.php'
+include 'includes/api-functions.php';
 
 ?>

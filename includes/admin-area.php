@@ -44,6 +44,7 @@ if($user_role !== 'administrator'){
 	// hide stuff in admin bar
 	function mytheme_admin_bar_render() {
 		global $wp_admin_bar;
+		$wp_admin_bar->remove_node('wp-logo');
 		$wp_admin_bar->remove_menu('updates');
 		$wp_admin_bar->remove_menu('comments');
 		$wp_admin_bar->remove_menu('edit');
