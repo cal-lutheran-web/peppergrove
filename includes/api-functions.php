@@ -1,11 +1,10 @@
 <?php
 
 // custom REST API parameters
-// append request parameter with acf_ to access a custom field
 
 
 function custom_request_param($args, $request){
-
+	// query based on acf_ prefix on custom field name
 	foreach($_GET as $key=>$value){
 		if(strpos($key, 'acf_') !== false){
 			$args['meta_query'] = array(
@@ -17,21 +16,39 @@ function custom_request_param($args, $request){
 			);
 		}
 	}
+	
+	// custom_orderby parameter based on custom field 
+	if(isset($_GET['custom_orderby'])){
+		$args['orderby'] = 'meta_value';
+		$args['meta_key'] = $_GET['custom_orderby'];
+	}
 
 	return $args;
 }
 
 
+// add custom_orderby request param to orderby
+function custom_request_query($params,$post_type){
+	$new_order = $_GET['custom_orderby'];
+	$params['orderby']['enum'][] = $new_order;
+	
+	return $params;
+}
+
+
 	
 
-
+// setup options on custom post types
 function custom_request($request){
 
 	global $wp_query;
 	$post_types = get_post_types(array('_builtin'=>false,'public'=>true),'objects');
 
 	foreach($post_types as $pt){
+		// add to existing query params
+		add_filter('rest_'.$pt->name.'_collection_params', 'custom_request_query', 99, 2 );
 		
+		// make new query param with acf_ prefix
 		add_filter('rest_'.$pt->name.'_query', 'custom_request_param', 99,2);
 	}
 	add_filter('rest_post_query', 'custom_request_param', 99,2);

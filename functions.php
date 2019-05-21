@@ -6,6 +6,7 @@
 
 // add theme supports
 add_theme_support('post-thumbnails');
+add_filter('acf/settings/remove_wp_meta_box', '__return_false');
 
 // admin area functions
 include 'includes/admin-area.php';
