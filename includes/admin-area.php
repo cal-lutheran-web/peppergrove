@@ -68,12 +68,35 @@ add_action('manage_posts_custom_column', 'posts_custom_columns', 5, 2);
 
 function posts_columns($defaults){
 	$defaults['post_thumbs'] = __('Featured Image');
+
+	$acf_fields = get_field_objects();
+
+	foreach($acf_fields as $key=>$field){
+		if($field['type'] == 'group'){
+			foreach($field['value'] as $subkey=>$subfield){
+				$fullkey = $key.'_'.$subkey;
+				$subname = get_field_object($fullkey);
+
+				$defaults['acf_'.$fullkey] = __($subname['label']);
+			}
+		} else {
+			$defaults['acf_'.$key] = __($field['label']);
+		}
+	}
+
 	return $defaults;
 }
 
 function posts_custom_columns($column_name, $id){
 	if($column_name === 'post_thumbs'){
 		echo the_post_thumbnail( array(64, 64) );
+	}
+
+	if(strpos($column_name,'acf_') === 0){
+		$field_name = str_replace('acf_','',$column_name);
+
+		echo get_field($field_name);
+		
 	}
 }
 
