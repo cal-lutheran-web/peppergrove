@@ -94,12 +94,48 @@ function posts_custom_columns($column_name, $id){
 
 	if(strpos($column_name,'acf_') === 0){
 		$field_name = str_replace('acf_','',$column_name);
-
 		echo get_field($field_name);
-		
 	}
 }
 
+
+
+// add sortable admin columns
+
+add_action( 'admin_init', 'admin_init' );
+function admin_init(){
+
+	$post_types = get_post_types(array('_builtin'=>false,'public'=>true),'objects');
+
+	foreach($post_types as $pt){
+		add_filter( 'manage_edit-'.$pt->name.'_sortable_columns', 'slug_title_not_sortable' );
+		
+	}
+
+	
+
+}
+
+
+function slug_title_not_sortable( $cols ) {
+
+	$acf_fields = get_field_objects();
+
+	foreach($acf_fields as $key=>$field){
+		if($field['type'] == 'group'){
+			foreach($field['value'] as $subkey=>$subfield){
+				$fullkey = $key.'_'.$subkey;
+				$subname = get_field_object($fullkey);
+
+				$cols['acf_'.$fullkey] = $subname['name'];
+			}
+		} else {
+			$cols['acf_'.$key] = $field['name'];
+		}
+	}
+	
+	return $cols;
+}
 
 
 
