@@ -94,9 +94,8 @@ function posts_custom_columns($column_name, $id){
 
 	if(strpos($column_name,'acf_') === 0){
 		$field_name = str_replace('acf_','',$column_name);
-		//echo get_field($field_name);
 
-		echo is_array(get_field($field_name)) ? get_field($field_name)['label'] : get_field($field_name);
+		echo is_array(get_field($field_name)) ? substr(get_field($field_name)['label'], 0, 60) : substr(get_field($field_name), 0, 60);
 		
 	}
 }
