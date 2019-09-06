@@ -3,7 +3,36 @@
 // check if not an admin
 $cur_user = wp_get_current_user();
 $user_role = $cur_user->roles[0];
-	
+
+
+
+
+// add custom CSS for all users
+function admin_style() {
+	wp_enqueue_style('admin-styles', get_template_directory_uri().'/admin.css');
+}
+add_action('admin_enqueue_scripts', 'admin_style');
+
+
+
+// custom logo in admin bar for all users
+function admin_bar_render_global(){
+	global $wp_admin_bar;
+	$wp_admin_bar->remove_node('wp-logo');
+	$wp_admin_bar->add_node(array(
+		"id" => "clu-dashboard",
+		"meta" => array(
+			"html" => "<img src=\"".get_bloginfo('template_url')."/web-dashboard.svg\" title=\"Web Dashboard\" class=\"web-dashboard-title\" />"
+		)
+	));
+}
+add_action( 'wp_before_admin_bar_render', 'admin_bar_render_global',1 );
+
+
+
+
+
+// for everyone but admin level users
 if($user_role !== 'administrator'){
 
 	// remove stuff from sidebar in dashboard
@@ -42,9 +71,9 @@ if($user_role !== 'administrator'){
 	
 	
 	// hide stuff in admin bar
-	function mytheme_admin_bar_render() {
+	function admin_bar_render() {
 		global $wp_admin_bar;
-		$wp_admin_bar->remove_node('wp-logo');
+		//$wp_admin_bar->remove_node('wp-logo');
 		$wp_admin_bar->remove_menu('updates');
 		$wp_admin_bar->remove_menu('comments');
 		$wp_admin_bar->remove_menu('edit');
@@ -52,7 +81,7 @@ if($user_role !== 'administrator'){
 		$wp_admin_bar->remove_menu('my-account');
 		$wp_admin_bar->remove_menu('site-name');
 	}
-	add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
+	add_action( 'wp_before_admin_bar_render', 'admin_bar_render' );
 	
 	
 	
