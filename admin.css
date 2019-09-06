@@ -2,7 +2,10 @@
 	--admin-bar-height: 50px;
 
 	--purple: #3b2360;
+	--purple-alt: #6a4c92;
+
 }
+
 
 
 .ab-top-menu {
@@ -38,4 +41,11 @@ html.wp-toolbar {
 
 #wp-admin-bar-clu-dashboard .ab-empty-item {
 	display: none !important;
+}
+
+
+
+
+#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu {
+	background-color: var(--purple-alt);
 }
