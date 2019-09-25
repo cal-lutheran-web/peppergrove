@@ -170,4 +170,43 @@ function slug_title_not_sortable( $cols ) {
 
 
 
+// allow filtering by taxonomy in admin area
+
+
+function filter_by_taxonomies( $post_type, $which ) {
+
+	$taxonomies = get_taxonomies(array(
+		'public' => true
+	));
+
+	// because its redundant to show cateogories twice
+	unset($taxonomies['category']);
+
+	foreach($taxonomies as $taxonomy_slug ) {
+
+		$taxonomy_obj = get_taxonomy( $taxonomy_slug );
+		$taxonomy_name = $taxonomy_obj->labels->name;
+
+		$terms = get_terms( $taxonomy_slug );
+
+		if($terms[0]->count > 0){
+			echo "<select name='{$taxonomy_slug}' id='{$taxonomy_slug}' class='postform'>";
+			echo '<option value="">' . sprintf( esc_html__( 'All %s', 'text_domain' ), $taxonomy_name ) . '</option>';
+			foreach ( $terms as $term ) {
+				printf(
+					'<option value="%1$s" %2$s>%3$s</option>',
+					$term->slug,
+					( ( isset( $_GET[$taxonomy_slug] ) && ( $_GET[$taxonomy_slug] == $term->slug ) ) ? ' selected="selected"' : '' ),
+					$term->name
+				);
+			}
+			echo '</select>';
+		}
+	}
+
+}
+add_action( 'restrict_manage_posts', 'filter_by_taxonomies' , 10, 2);
+
+
+
 ?>
