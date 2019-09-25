@@ -11,7 +11,7 @@ $user_role = $cur_user->roles[0];
 function admin_style() {
 	wp_enqueue_style('admin-styles', get_template_directory_uri().'/admin.css');
 }
-add_action('admin_enqueue_scripts', 'admin_style');
+//add_action('admin_enqueue_scripts', 'admin_style');
 
 
 
@@ -26,7 +26,7 @@ function admin_bar_render_global(){
 		)
 	));
 }
-add_action( 'wp_before_admin_bar_render', 'admin_bar_render_global',1 );
+//add_action( 'wp_before_admin_bar_render', 'admin_bar_render_global',1 );
 
 
 
