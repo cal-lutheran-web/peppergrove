@@ -84,7 +84,24 @@ if($user_role !== 'administrator'){
 	add_action( 'wp_before_admin_bar_render', 'admin_bar_render' );
 	
 	
-	
+
+	// hide permalinks in post editor
+	add_filter( 'get_sample_permalink_html', 'wpse_125800_sample_permalink' );
+	function wpse_125800_sample_permalink( $return ) {
+		$return = '';
+
+		return $return;
+	}
+
+	// hide preview in admin post list
+	add_filter( 'page_row_actions', 'wpse_125800_row_actions', 10, 2 );
+	add_filter( 'post_row_actions', 'wpse_125800_row_actions', 10, 2 );
+	function wpse_125800_row_actions( $actions, $post ) {
+		unset( $actions['inline hide-if-no-js'] );
+		unset( $actions['view'] );
+
+		return $actions;
+	}
 
 }
 
