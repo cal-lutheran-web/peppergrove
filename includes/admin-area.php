@@ -6,29 +6,20 @@ $user_role = $cur_user->roles[0];
 
 
 
-
-// add custom CSS for all users
-function admin_style() {
-	wp_enqueue_style('admin-styles', get_template_directory_uri().'/admin.css');
+// only show posts from author, show all for admins
+function posts_for_current_author($query) {
+    global $pagenow;
+ 
+    if( 'edit.php' != $pagenow || !$query->is_admin )
+        return $query;
+ 
+    if( !current_user_can( 'edit_others_posts' ) ) {
+        global $user_ID;
+        $query->set('author', $user_ID );
+    }
+    return $query;
 }
-//add_action('admin_enqueue_scripts', 'admin_style');
-
-
-
-// custom logo in admin bar for all users
-function admin_bar_render_global(){
-	global $wp_admin_bar;
-	$wp_admin_bar->remove_node('wp-logo');
-	$wp_admin_bar->add_node(array(
-		"id" => "clu-dashboard",
-		"meta" => array(
-			"html" => "<img src=\"".get_bloginfo('template_url')."/web-dashboard.svg\" title=\"Web Dashboard\" class=\"web-dashboard-title\" />"
-		)
-	));
-}
-//add_action( 'wp_before_admin_bar_render', 'admin_bar_render_global',1 );
-
-
+//add_filter('pre_get_posts', 'posts_for_current_author');
 
 
 
@@ -115,35 +106,65 @@ add_action('manage_posts_custom_column', 'posts_custom_columns', 5, 2);
 function posts_columns($defaults){
 	$defaults['post_thumbs'] = __('Featured Image');
 
-	$acf_fields = get_field_objects();
+	$taxonomies = get_taxonomies(array(
+		'public' => true
+	));
 
-	foreach($acf_fields as $key=>$field){
-		if($field['type'] == 'group'){
-			foreach($field['value'] as $subkey=>$subfield){
-				$fullkey = $key.'_'.$subkey;
-				$subname = get_field_object($fullkey);
+	foreach($taxonomies as $taxonomy_slug ) {
+		$taxonomy_obj = get_taxonomy( $taxonomy_slug );
+		$taxonomy_name = $taxonomy_obj->labels->name;
 
-				$defaults['acf_'.$fullkey] = __($subname['label']);
-			}
-		} else {
-			$defaults['acf_'.$key] = __($field['label']);
-		}
+		$terms = get_terms( $taxonomy_slug );
+		$defaults['tax_'.$taxonomy_slug] = __($taxonomy_name);
 	}
+
+
+	// $acf_fields = get_field_objects();
+
+	// foreach($acf_fields as $key=>$field){
+	// 	if($field['type'] == 'group'){
+	// 		foreach($field['value'] as $subkey=>$subfield){
+	// 			$fullkey = $key.'_'.$subkey;
+	// 			$subname = get_field_object($fullkey);
+
+	// 			$defaults['acf_'.$fullkey] = __($subname['label']);
+	// 		}
+	// 	} else {
+	// 		$defaults['acf_'.$key] = __($field['label']);
+	// 	}
+	// }
 
 	return $defaults;
 }
 
 function posts_custom_columns($column_name, $id){
+
 	if($column_name === 'post_thumbs'){
 		echo the_post_thumbnail( array(64, 64) );
 	}
 
-	if(strpos($column_name,'acf_') === 0){
-		$field_name = str_replace('acf_','',$column_name);
+	if(strpos($column_name,'tax_') === 0){
+		$tax_slug = str_replace('tax_','',$column_name);
 
-		echo is_array(get_field($field_name)) ? substr(get_field($field_name)['label'], 0, 60) : substr(get_field($field_name), 0, 60);
+		$tax_data = get_the_terms($id, $tax_slug);
 		
+		if(!empty($tax_data)){
+			$tags = [];
+
+			foreach($tax_data as $item){
+				$tags[] = $item->name;
+			}
+
+			echo implode(', ', $tags);
+		}
 	}
+
+	// if(strpos($column_name,'acf_') === 0){
+	// 	$field_name = str_replace('acf_','',$column_name);
+
+	// 	echo is_array(get_field($field_name)) ? substr(get_field($field_name)['label'], 0, 60) : substr(get_field($field_name), 0, 60);
+		
+	// }
 }
 
 
@@ -156,7 +177,12 @@ function admin_init(){
 	$post_types = get_post_types(array('_builtin'=>false,'public'=>true),'objects');
 
 	foreach($post_types as $pt){
-		add_filter( 'manage_edit-'.$pt->name.'_sortable_columns', 'slug_title_not_sortable' );
+
+		$post_info = wp_count_posts($pt->name);
+
+		if($post_info->publish > 0){
+			//add_filter( 'manage_edit-'.$pt->name.'_sortable_columns', 'slug_title_not_sortable' );
+		}
 		
 	}
 
@@ -169,7 +195,7 @@ function slug_title_not_sortable( $cols ) {
 
 	$acf_fields = get_field_objects();
 
-	foreach($acf_fields as $key=>$field){
+	foreach($acf_fields->map as $key=>$field){
 		if($field['type'] == 'group'){
 			foreach($field['value'] as $subkey=>$subfield){
 				$fullkey = $key.'_'.$subkey;
