@@ -107,7 +107,8 @@ function posts_columns($defaults){
 	$defaults['post_thumbs'] = __('Featured Image');
 
 	$taxonomies = get_taxonomies(array(
-		'public' => true
+		'public' => true,
+		'_builtin' => false
 	));
 
 	foreach($taxonomies as $taxonomy_slug ) {
