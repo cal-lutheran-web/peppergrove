@@ -226,7 +226,11 @@ function filter_by_taxonomies( $post_type, $which ) {
 		$terms = get_terms( $tax->name );
 
 		echo '<select name="'.$tax->name.'" id="'.$tax->name.'" class="postform">';
+<<<<<<< HEAD
 		echo '<option value="">All '.$tax->label.'</option>';
+=======
+		echo '<option value="">All '.$tax->name.'</option>';
+>>>>>>> e2089daabf65b3b9743a9b9e3bb37bcb9cd7c8f3
 
 		foreach($terms as $term){
 			echo '<option value="'.$term->slug.'">'.$term->name.'</option>';
