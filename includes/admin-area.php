@@ -104,21 +104,14 @@ add_filter('manage_posts_columns', 'posts_columns', 5);
 add_action('manage_posts_custom_column', 'posts_custom_columns', 5, 2);
 
 function posts_columns($defaults){
+
 	$defaults['post_thumbs'] = __('Featured Image');
 
-	$taxonomies = get_taxonomies(array(
-		'public' => true,
-		'_builtin' => false
-	));
+	$taxonomies = get_object_taxonomies( $_GET['post_type'], 'objects' );
 
-	foreach($taxonomies as $taxonomy_slug ) {
-		$taxonomy_obj = get_taxonomy( $taxonomy_slug );
-		$taxonomy_name = $taxonomy_obj->labels->name;
-
-		$terms = get_terms( $taxonomy_slug );
-		$defaults['tax_'.$taxonomy_slug] = __($taxonomy_name);
+	foreach($taxonomies as $tax){
+		$defaults['tax_'.$tax->name] = __($tax->label);
 	}
-
 
 	// $acf_fields = get_field_objects();
 
