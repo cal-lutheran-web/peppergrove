@@ -15,6 +15,16 @@ function custom_request_param($args, $request){
 				)
 			);
 		}
+		
+		if(strpos($key, 'gt_acf_') !== false){
+			$args['meta_query'] = array(
+				array(
+					'key'	 => str_replace('gt_acf_','',$key),
+					'value'   => $_GET[$key],
+					'compare' => '>',
+				)
+			);
+		}
 	}
 	
 	// custom_orderby parameter based on custom field 
