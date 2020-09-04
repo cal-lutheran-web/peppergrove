@@ -6,25 +6,57 @@
 function custom_request_param($args, $request){
 	// query based on acf_ prefix on custom field name
 	foreach($_GET as $key=>$value){
+
+		// acf equal to
 		if(strpos($key, 'acf_') !== false){
-			$args['meta_query'] = array(
-				array(
-					'key'     => str_replace('acf_','',$key),
-					'value'   => $_GET[$key],
-					'compare' => '=',
-				)
+			$query = array(
+				'prefix' => 'acf_',
+				'compare' => '='
 			);
 		}
-		
+
+		// acf greater than
 		if(strpos($key, 'gt_acf_') !== false){
-			$args['meta_query'] = array(
-				array(
-					'key'	 => str_replace('gt_acf_','',$key),
-					'value'   => $_GET[$key],
-					'compare' => '>',
-				)
+			$query = array(
+				'prefix' => 'gt_acf_',
+				'compare' => '>'
 			);
 		}
+
+		// acf equal and greater than
+		if(strpos($key, 'gte_acf_') !== false){
+			$query = array(
+				'prefix' => 'gte_acf_',
+				'compare' => '>='
+			);
+		}
+
+		// acf less than
+		if(strpos($key, 'lt_acf_') !== false){
+			$query = array(
+				'prefix' => 'lt_acf_',
+				'compare' => '<'
+			);
+		}
+
+		// acf equal and less than
+		if(strpos($key, 'lte_acf_') !== false){
+			$query = array(
+				'prefix' => 'lte_acf_',
+				'compare' => '<='
+			);
+		}
+
+
+		$args['meta_query'] = array(
+			array(
+				'key'     => str_replace($query->prefix,'',$key),
+				'value'   => $_GET[$key],
+				'compare' => $query->compare,
+			)
+		);
+
+
 	}
 	
 	// custom_orderby parameter based on custom field 
