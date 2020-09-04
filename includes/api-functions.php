@@ -9,52 +9,61 @@ function custom_request_param($args, $request){
 
 		// acf equal to
 		if(strpos($key, 'acf_') !== false){
-			$query = array(
-				'prefix' => 'acf_',
-				'compare' => '='
+			$args['meta_query'] = array(
+				array(
+					'key'     => str_replace('acf_','',$key),
+					'value'   => $_GET[$key],
+					'compare' => '=',
+				)
 			);
 		}
 
 		// acf greater than
 		else if(strpos($key, 'gt_acf_') !== false){
-			$query = array(
-				'prefix' => 'gt_acf_',
-				'compare' => '>'
+			$args['meta_query'] = array(
+				array(
+					'key'     => str_replace('gt_acf_','',$key),
+					'value'   => $_GET[$key],
+					'compare' => '>',
+				)
 			);
 		}
 
 		// acf equal and greater than
 		else if(strpos($key, 'gte_acf_') !== false){
-			$query = array(
-				'prefix' => 'gte_acf_',
-				'compare' => '>='
+			$args['meta_query'] = array(
+				array(
+					'key'     => str_replace('gte_acf_','',$key),
+					'value'   => $_GET[$key],
+					'compare' => '>=',
+				)
 			);
 		}
 
 		// acf less than
 		else if(strpos($key, 'lt_acf_') !== false){
-			$query = array(
-				'prefix' => 'lt_acf_',
-				'compare' => '<'
+			$args['meta_query'] = array(
+				array(
+					'key'     => str_replace('lt_acf_','',$key),
+					'value'   => $_GET[$key],
+					'compare' => '<',
+				)
 			);
 		}
 
 		// acf equal and less than
 		else if(strpos($key, 'lte_acf_') !== false){
-			$query = array(
-				'prefix' => 'lte_acf_',
-				'compare' => '<='
+			$args['meta_query'] = array(
+				array(
+					'key'     => str_replace('lte_acf_','',$key),
+					'value'   => $_GET[$key],
+					'compare' => '<=',
+				)
 			);
 		}
 
 
-		$args['meta_query'] = array(
-			array(
-				'key'     => str_replace($query['prefix'],'',$key),
-				'value'   => $_GET[$key],
-				'compare' => $query['compare'],
-			)
-		);
+		
 
 
 	}
