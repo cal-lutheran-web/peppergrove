@@ -19,7 +19,7 @@ function custom_request_param($args, $request){
 		}
 
 		// acf greater than
-		else if(strpos($key, 'gt_acf_') !== false){
+		if(strpos($key, 'gt_acf_') !== false){
 			$args['meta_query'] = array(
 				array(
 					'key'     => str_replace('gt_acf_','',$key),
@@ -30,7 +30,7 @@ function custom_request_param($args, $request){
 		}
 
 		// acf equal and greater than
-		else if(strpos($key, 'gte_acf_') !== false){
+		if(strpos($key, 'gte_acf_') !== false){
 			$args['meta_query'] = array(
 				array(
 					'key'     => str_replace('gte_acf_','',$key),
@@ -41,7 +41,7 @@ function custom_request_param($args, $request){
 		}
 
 		// acf less than
-		else if(strpos($key, 'lt_acf_') !== false){
+		if(strpos($key, 'lt_acf_') !== false){
 			$args['meta_query'] = array(
 				array(
 					'key'     => str_replace('lt_acf_','',$key),
@@ -52,7 +52,7 @@ function custom_request_param($args, $request){
 		}
 
 		// acf equal and less than
-		else if(strpos($key, 'lte_acf_') !== false){
+		if(strpos($key, 'lte_acf_') !== false){
 			$args['meta_query'] = array(
 				array(
 					'key'     => str_replace('lte_acf_','',$key),
