@@ -1,7 +1,6 @@
 <?php
 
-// Enable the option show in rest
-add_filter( 'acf/rest_api/field_settings/show_in_rest', '__return_true' );
+
 
 // add support for campus_location ACF custom field
 function acf_campus_locations_widget( $field ) {
