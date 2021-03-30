@@ -35,3 +35,5 @@ if(is_archive()){
 
 
 ?>
+
+<p>This is the Peppergrove headless WordPress theme for California Lutheran University. Nothing to see here.</p>
