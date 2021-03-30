@@ -36,4 +36,15 @@ if(is_archive()){
 
 ?>
 
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Peppergrove theme</title>
+</head>
+<body>
+
 <p>This is the Peppergrove headless WordPress theme for California Lutheran University. Nothing to see here.</p>
+
+</body>
+</html>
