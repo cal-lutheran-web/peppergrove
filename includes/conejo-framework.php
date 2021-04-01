@@ -145,6 +145,30 @@
 		</div>';
 	
 	}
+
+
+
+
+
+	// format year into shortened graduation class year
+	
+	function get_class_year($year){
+		$year_str = explode(' ',$year);
+		
+		$full_str = array();
+		
+		foreach($year_str as $str){
+			if(is_numeric($str) == true){
+				$short_year = '\''.str_split($str,2)[1];
+				$full_str[] = $short_year;
+			} else {
+				$full_str[] = $str;
+			}
+		}
+		
+		return implode(' ',$full_str);
+	
+	}
 	
 	
 ?>
