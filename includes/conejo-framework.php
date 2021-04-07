@@ -1,5 +1,20 @@
 <?php
 
+//// Conejo Framework Assets for Local Testing ////
+function conejo_css(){
+	if(strpos($_SERVER['SERVER_NAME'], 'local') > 0){
+		echo '<!-- Conejo Framework Main CSS -->
+		<link rel="stylesheet" type="text/css" href="https://www.callutheran.edu/_resources/conejo/css/styles.css" />';
+	}	
+}
+
+function conejo_js(){
+	if(strpos($_SERVER['SERVER_NAME'], 'local') > 0){
+		echo '<!-- Conejo Framework Main JS -->
+		<script src="https://www.callutheran.edu/_resources/conejo/js/conejo.min.js" defer></script>';
+	}	
+}
+
 //// Common template functions /////////////////////////////////////////////////////
 	
 	// make slug from string
