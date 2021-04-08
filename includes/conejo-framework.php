@@ -63,9 +63,9 @@ function conejo_js($jquery=false){
 	
 	
 	// return data in a short item component
-	function short_item($si_aside,$si_content,$si_options=null,$si_id=null){
+	function short_item($si_aside='',$si_content='',$si_options=null,$si_id=null){
 		echo '<div class="short-item '.$si_options.'">';
-		echo '<div class="short-item-aside">'.$si_aside.'</div>';
+		if($si_aside !== ''){ echo '<div class="short-item-aside">'.$si_aside.'</div>'; }
 		echo '<div class="short-item-content">'.$si_content.'</div>';
 		echo '</div>';
 	}
