@@ -8,8 +8,13 @@ function conejo_css(){
 	}	
 }
 
-function conejo_js(){
+function conejo_js($jquery=false){
 	if(strpos($_SERVER['SERVER_NAME'], 'local') > 0){
+
+		if($jquery == true){
+			echo '<!-- jQuery -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>';
+		}
 		echo '<!-- Conejo Framework Main JS -->
 		<script src="https://www.callutheran.edu/_resources/conejo/js/conejo.min.js" defer></script>';
 	}	
