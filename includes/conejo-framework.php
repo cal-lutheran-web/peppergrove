@@ -22,6 +22,48 @@ function conejo_js($jquery=false){
 
 //// Common template functions /////////////////////////////////////////////////////
 	
+	// display breadcrumbs markup
+	function breadcrumbs($crumbs = array()){
+
+		$html = '
+		<div class="breadcrumb-row">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<!--  BREADCRUMB -->
+						<nav id="top-breadcrumb" class="breadcrumb">
+							<ul>
+								<li><a href="/">Home</a></li>';
+
+								if(isset($crumbs)){
+									foreach($crumbs as $key=>$c){
+									
+										if(isset($c['link']) || $c['link'] !== ''){
+											$html .= '<li><a href="'.$c['link'].'">'.$c['name'].'</a></li>';
+										} else {
+											$html .= '<li><span>'.$c['name'].'</span></li>';
+										}
+
+									}
+								}
+
+							$html .= '
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>';
+
+		return $html;
+
+	}
+
+
+
+
+
+
 	// make slug from string
 	function slug($text){
 		
