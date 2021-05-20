@@ -20,6 +20,14 @@ function conejo_js($jquery=false){
 	}	
 }
 
+function is_local(){
+	if(strpos($_SERVER['SERVER_NAME'], 'local') > 0){
+		return true;
+	} else {
+		return false;
+	}
+}
+
 //// Common template functions /////////////////////////////////////////////////////
 	
 	// display breadcrumbs markup
