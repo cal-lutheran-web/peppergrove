@@ -2,19 +2,14 @@
 
 //// Conejo Framework Assets for Local Testing ////
 function conejo_css(){
-	if(strpos($_SERVER['SERVER_NAME'], 'local') > 0 || $_GET['preview'] == 'true'){
+	if($_GET['preview'] == 'true' || $_GET['conejo'] !== 'false'){
 		echo '<!-- Conejo Framework Main CSS -->
 		<link rel="stylesheet" type="text/css" href="https://www.callutheran.edu/_resources/conejo/css/styles.css" />';
 	}	
 }
 
 function conejo_js($jquery=false){
-echo '<pre>';
-print_r($_SERVER);
-echo '</pre>';
-
-
-	if(strpos($_SERVER['SERVER_NAME'], 'local') > 0 || $_GET['preview'] == 'true'){
+	if($_GET['preview'] == 'true' || $_GET['conejo'] !== 'false'){
 
 		if($jquery == true){
 			echo '<!-- jQuery -->
