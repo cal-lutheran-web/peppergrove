@@ -9,6 +9,11 @@ function conejo_css(){
 }
 
 function conejo_js($jquery=false){
+echo '<pre>';
+print_r($_SERVER);
+echo '</pre>';
+
+
 	if(strpos($_SERVER['SERVER_NAME'], 'local') > 0 || $_GET['preview'] == 'true'){
 
 		if($jquery == true){
