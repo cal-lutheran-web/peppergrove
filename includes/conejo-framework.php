@@ -20,8 +20,9 @@ function conejo_js($jquery=false){
 	}	
 }
 
+// check if being viewed on local testing server or within sites.callutheran.edu
 function is_local(){
-	if(strpos($_SERVER['SERVER_NAME'], 'local') > 0){
+	if(strpos($_SERVER['SERVER_NAME'], 'local') > 0 || $_GET['conejo'] !== 'false'){
 		return true;
 	} else {
 		return false;
